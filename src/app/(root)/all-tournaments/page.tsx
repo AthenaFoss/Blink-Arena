@@ -10,6 +10,8 @@ import Button from "@/components/ui/arrow-right";
 import ButtonLeft from "@/components/ui/arrow-left";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 interface Tournament {
   _id: string;
   organizationName: string;
@@ -48,8 +50,7 @@ const PrevArrow = ({ onClick }: { onClick: React.MouseEventHandler }) => {
   );
 };
 
-const onClick = () => {
-};
+const onClick = () => {};
 
 const Page = () => {
   const [data, setData] = useState<Tournament[]>([]);
@@ -62,7 +63,6 @@ const Page = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        cache: "no-store",
       });
 
       if (response.ok) {
