@@ -1,6 +1,5 @@
-import { connectToDatabase } from "@/app/(mongodb)/connectdb";
-import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 import { uploadImage } from "@/lib/cloudinary";
+import prisma from "@/lib/db";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
@@ -15,8 +14,6 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function POST(req: Request) {
-  await connectToDatabase();
-
   try {
     const formData = await req.formData();
 
@@ -42,23 +39,23 @@ export async function POST(req: Request) {
       imageUrl = await uploadImage(image, "tournament");
     }
 
-    const data = new createTournamentSchema({
-      tournamentId,
-      organizationName,
-      email,
-      image: imageUrl,
-      description,
-      totalSlot,
-      prizePool,
-      date,
-      time,
-      location,
-      totalTeamMembers,
-      joinFees,
-      joinFeesType,
+    const data = await prisma.tournament.create({
+      data: {
+        tournamentId,
+        organizationName,
+        email,
+        image: imageUrl,
+        description,
+        totalSlot,
+        prizePool,
+        date,
+        time,
+        location,
+        totalTeamMembers,
+        joinFees,
+        joinFeesType,
+      },
     });
-
-    await data.save();
 
     await transporter.sendMail({
       from: process.env.EMAIL,
@@ -74,7 +71,6 @@ export async function POST(req: Request) {
         <p>Best regards,<br>Team Blink Arena</p>
       `,
     });
-
     return new Response(
       JSON.stringify({
         success: true,

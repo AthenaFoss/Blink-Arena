@@ -1,6 +1,6 @@
-import { connectToDatabase } from "@/app/(mongodb)/connectdb";
-import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
-import Player from "@/app/(mongodb)/schema/playerScehma";
+// import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
+// import Player from "@/app/(mongodb)/schema/playerScehma";
+import prisma from "@/lib/db";
 import {
   ActionError,
   CompletedAction,
@@ -32,7 +32,6 @@ const transporter = nodemailer.createTransport({
 export const OPTIONS = GET;
 
 export const POST = async (req: Request) => {
-  await connectToDatabase();
   try {
     const body = await req.json();
     const url = new URL(req.url);
@@ -44,18 +43,21 @@ export const POST = async (req: Request) => {
     const tournamentId = url.searchParams.get("tournamentId") ?? "";
     const playerId = crypto.randomUUID();
 
-    const orgData = await createTournamentSchema.findOne({ tournamentId });
-
-    const newPlayer = new Player({
-      playerId,
-      tournamentId,
-      playerName,
-      playerEmail,
-      playerPubKey,
-      teamType,
-      teamMembers,
+    const orgData = await prisma.tournament.findUnique({
+      where: { tournamentId },
     });
-    await newPlayer.save();
+
+    await prisma.player.create({
+      data: {
+        playerId,
+        tournamentId,
+        playerName,
+        playerEmail,
+        playerPubKey,
+        teamType,
+        teamMembers,
+      },
+    });
 
     await transporter.sendMail({
       from: process.env.EMAIL,
@@ -68,7 +70,7 @@ export const POST = async (req: Request) => {
     const payload: CompletedAction = {
       type: "completed",
       title: "Registration Successful",
-      icon: `${orgData.image}`,
+      icon: `${orgData?.image}`,
       label: "Completed",
       description: `You have successfully joined the tournament`,
     };

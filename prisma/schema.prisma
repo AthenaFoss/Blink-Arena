@@ -1,0 +1,47 @@
+// Define MongoDB as the provider
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Tournament {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  tournamentId     String   @unique
+  players          Player[]
+  organizationName String
+  email            String
+  image            String
+  description      String
+  totalSlot        Int
+  prizePool        String?
+  date             String
+  time             String
+  location         String
+  totalTeamMembers Int
+  joinFees         Int
+  joinFeesType     String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("tournaments") // Optional: map model to a specific collection name in MongoDB
+}
+
+model Player {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  playerId     String
+  tournamentId String    @unique
+  tournament   Tournament @relation(fields: [tournamentId], references: [tournamentId])
+  playerName   String
+  playerEmail  String
+  playerPubKey String
+  teamType     String
+  teamMembers  String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@map("players") // Optional: map model to a specific collection name in MongoDB
+}

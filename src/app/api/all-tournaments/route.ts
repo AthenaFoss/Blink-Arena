@@ -1,10 +1,10 @@
-import { connectToDatabase } from "@/app/(mongodb)/connectdb";
-import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
+import prisma from "@/lib/db";
 
 export async function GET() {
-  await connectToDatabase();
   try {
-    const data = await createTournamentSchema.find();
+    const data = await prisma.tournament.findMany();
+    console.log("data:", data);
+
     return new Response(
       JSON.stringify({
         success: true,

@@ -10,8 +10,6 @@ import Button from "@/components/ui/arrow-right";
 import ButtonLeft from "@/components/ui/arrow-left";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-
 interface Tournament {
   _id: string;
   organizationName: string;

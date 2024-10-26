@@ -12,20 +12,21 @@ import {
   ActionGetResponse,
   ActionPostResponse,
 } from "@solana/actions";
-import { connectToDatabase } from "@/app/(mongodb)/connectdb";
-import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
+import prisma from "@/lib/db";
 
 const organizerPubKey = "6rSrLGuhPEpxGqmbZzV1ZttwtLXzGx8V2WEACXd4qnVH";
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
 export const GET = async (req: Request) => {
-  await connectToDatabase();
-
   const { pathname } = new URL(req.url);
   const pathSegments = pathname.split("/");
   const tournamentId = pathSegments[4];
 
-  const orgData = await createTournamentSchema.findOne({ tournamentId });
+  const orgData = await prisma.tournament.findUnique({
+    where: {
+      tournamentId,
+    },
+  });
 
   if (!orgData) {
     return new Response(JSON.stringify({ error: "Tournament not found" }), {
@@ -38,9 +39,7 @@ export const GET = async (req: Request) => {
     const payload: ActionGetResponse = {
       icon: `${orgData.image}`,
       title: `join the ${orgData.organizationName} tournament`,
-      description: `${orgData.description}\nAvailable Slots: ${
-        orgData.availableSlots || orgData.totalSlot
-      }`,
+      description: `${orgData.description}\nAvailable Slots: ${orgData.totalSlot}`,
 
       label: "Join Now",
       links: {
@@ -74,22 +73,19 @@ export const GET = async (req: Request) => {
               {
                 type: "radio",
                 name: "members",
-                label: `Select Team Member (Select 1 if Selected Solo) - Available Slots: ${
-                  orgData.availableSlots || orgData.totalSlot
-                }`,
+                label: `Select Team Member (Select 1 if Selected Solo) - Available Slots: ${orgData.totalSlot}`,
                 options: [
                   { label: "1", value: "1" },
                   { label: "2", value: "2" },
                   { label: "3", value: "3" },
                   { label: "4", value: "4" },
                 ].filter(
-                  (option) =>
-                    parseInt(option.value) <=
-                    (orgData.availableSlots || orgData.totalSlot)
+                  (option) => parseInt(option.value) <= orgData.totalSlot
                 ),
                 required: true,
               },
             ],
+            type: "transaction",
           },
         ],
       },
@@ -125,7 +121,9 @@ export const POST = async (req: Request) => {
     const teamMembers = parseInt(url.searchParams.get("members") ?? "0");
     const fees = 0.002;
 
-    const tournament = await createTournamentSchema.findOne({ tournamentId });
+    const tournament = await prisma.tournament.findUnique({
+      where: { tournamentId },
+    });
     if (!tournament) {
       return new Response(JSON.stringify({ error: "Tournament not found" }), {
         status: 404,
@@ -144,22 +142,21 @@ export const POST = async (req: Request) => {
       );
     }
 
-    const updatedTournament = await createTournamentSchema.findOneAndUpdate(
-      { tournamentId },
-      {
-        $set: { totalSlot: availableSlots - teamMembers },
-        $push: {
-          participants: {
-            name: playerName,
-            email: playerEmail,
-            teamType,
-            teamMembers,
-            walletAddress: playerPubKey.toString(),
-          },
-        },
+    const updatedTournament = await prisma.tournament.update({
+      where: { tournamentId },
+      data: {
+        totalSlot: { decrement: teamMembers },
+        // player: {
+        //   push: {
+        //     name: playerName,
+        //     email: playerEmail,
+        //     teamType: teamType,
+        //     teamMembers: teamMembers,
+        //     walletAddress: playerPubKey,
+        //   },
+        // },
       },
-      { new: true }
-    );
+    });
 
     if (!updatedTournament) {
       throw new Error("Failed to update tournament data");
@@ -180,6 +177,7 @@ export const POST = async (req: Request) => {
 
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
+        type: "transaction",
         transaction,
         message: `Successfully joined the tournament! Remaining slots: ${updatedTournament.totalSlot}`,
         links: {

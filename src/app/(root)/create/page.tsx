@@ -115,7 +115,8 @@ const TournamentForm: React.FC = () => {
         const tournamentId = data.data.tournamentId;
         setTournamentId(tournamentId);
         setTournamentUrl(
-          `https://blink-arena.vercel.app/api/actions/join/tournaments/${tournamentId}`
+          // `https://blink-arena.vercel.app/api/actions/join/tournaments/${tournamentId}`
+          `http://localhost:3000/api/actions/join/tournaments/${tournamentId}`
         );
 
         setFormData({

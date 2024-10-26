@@ -1,5 +1,4 @@
-import { connectToDatabase } from "@/app/(mongodb)/connectdb";
-import Player from "@/app/(mongodb)/schema/playerScehma";
+import prisma from "@/lib/db";
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
@@ -19,7 +18,6 @@ export async function POST(
   { params }: { params: { tournamentId: string } }
 ) {
   const { tournamentId } = params;
-  await connectToDatabase();
 
   try {
     const { roomId, password } = await req.json();
@@ -34,7 +32,9 @@ export async function POST(
     const url = new URL(req.url);
     const playerName = url.searchParams.get("playerName") ?? "";
 
-    const registeredPlayers = await Player.find({ tournamentId });
+    const registeredPlayers = await prisma.player.findMany({
+      where: { tournamentId },
+    });
 
     if (registeredPlayers.length === 0) {
       return NextResponse.json(
