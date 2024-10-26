@@ -1,6 +1,6 @@
 import { connectToDatabase } from "@/app/(mongodb)/connectdb";
 import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
-import uploadImage from "../cloudinary/route";
+import { uploadImage } from "@/lib/cloudinary";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({

@@ -26,8 +26,7 @@ interface Tournament {
   joinFeesType: string;
 }
 
-const NextArrow = (props: any) => {
-  const { onClick } = props;
+const NextArrow = ({ onClick }: { onClick: React.MouseEventHandler }) => {
   return (
     <div
       className="absolute right-[-90px] top-1/2 transform -translate-y-1/2 z-40 text-white text-6xl cursor-pointer"
@@ -38,8 +37,7 @@ const NextArrow = (props: any) => {
   );
 };
 
-const PrevArrow = (props: any) => {
-  const { onClick } = props;
+const PrevArrow = ({ onClick }: { onClick: React.MouseEventHandler }) => {
   return (
     <div
       className="absolute left-[-90px] top-1/2 transform -translate-y-1/2 z-40 text-white text-6xl cursor-pointer"
@@ -48,6 +46,10 @@ const PrevArrow = (props: any) => {
       <ButtonLeft />
     </div>
   );
+};
+
+const onClick = () => {
+  console.log("clicked");
 };
 
 const Page = () => {
@@ -94,8 +96,8 @@ const Page = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 2,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow onClick={onClick} />,
+    prevArrow: <PrevArrow onClick={onClick} />,
     responsive: [
       {
         breakpoint: 1024,

@@ -1,6 +1,5 @@
 "use client";
 
-import LoadingScreen from "@/components/ui/loading";
 import { useState, useEffect } from "react";
 
 interface Tournament {

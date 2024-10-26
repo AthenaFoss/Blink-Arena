@@ -1,48 +1,28 @@
+import { uploadImage } from "@/lib/cloudinary";
 import { v2 as cloudinary } from "cloudinary";
 
+// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+// Create an API route handler
+export async function POST(request: Request) {
+  const formData = await request.formData(); // Use formData to access the uploaded file
+  const file = formData.get("file") as Blob; // Assuming the input name is 'file'
+  const folder = formData.get("folder") as string; // If you want to specify a folder
 
-export default async function uploadImage(
-  file: Blob,
-  folder: string = ""
-): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const stream = cloudinary.uploader.upload_stream(
-      {
-        folder,
-        resource_type: "image",
-        upload_preset: process.env.CLOUDINARY_UPLOAD_PRESET || "",
-      },
-      (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result?.secure_url || "");
-        }
-      }
-    );
-
-    const reader = file.stream().getReader();
-    const read = () => {
-      reader.read().then(({ done, value }) => {
-        if (done) {
-          stream.end();
-          return;
-        }
-        stream.write(value);
-        read();
-      });
-    };
-    read();
-  });
+  try {
+    const imageUrl = await uploadImage(file, folder);
+    return new Response(JSON.stringify({ url: imageUrl }), { status: 200 });
+  } catch (error: any) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+    });
+  }
 }
+
+// Upload image function
+

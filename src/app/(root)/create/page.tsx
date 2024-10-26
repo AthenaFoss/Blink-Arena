@@ -1,9 +1,7 @@
-// @ts-nocheck
+//@typescript-eslint/no-explicit-any
 "use client";
 
-import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
 import LoadingScreen from "@/components/ui/loading";
-import { TwitterLogoIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -40,10 +38,10 @@ const TournamentForm: React.FC = () => {
     joinFeesType: "",
   });
 
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [, setImageUrl] = useState<string | null>(null);
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [tournamentUrl, setTournamentUrl] = useState<string>("");
+  const [, setTournamentUrl] = useState<string>("");
   const [tournamentId, setTournamentId] = useState<string>("");
 
   useEffect(() => {
@@ -98,7 +96,10 @@ const TournamentForm: React.FC = () => {
       if (key === "image" && formData[key]) {
         formDataToSend.append("image", formData[key]);
       } else {
-        formDataToSend.append(key, formData[key] as any);
+        formDataToSend.append(
+          key,
+          formData[key as keyof TournamentFormData] as any
+        );
       }
     }
 

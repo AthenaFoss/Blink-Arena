@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
-import LoadingScreen from "@/components/ui/loading";
 import Image from "next/image";
 import Link from "next/link";
 
