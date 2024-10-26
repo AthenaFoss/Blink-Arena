@@ -7,7 +7,6 @@ export const GET = async (req: Request) => {
   const url = new URL(req.url);
   const pathSegments = url.pathname.split('/'); 
   const tournamentId = pathSegments[pathSegments.length - 1];
-  console.log("id",tournamentId);
 
   if (!tournamentId) {
     return new Response(JSON.stringify({
@@ -22,7 +21,6 @@ export const GET = async (req: Request) => {
   try {
     const tournament = await createTournamentSchema.findOne({ tournamentId });
 
-    console.log(tournament)
 
     if (tournament) {
       return new Response(JSON.stringify({

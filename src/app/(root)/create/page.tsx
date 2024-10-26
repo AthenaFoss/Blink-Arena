@@ -115,7 +115,7 @@ const TournamentForm: React.FC = () => {
         const tournamentId = data.data.tournamentId;
         setTournamentId(tournamentId);
         setTournamentUrl(
-          `http://localhost:3000/api/actions/join/tournaments/${tournamentId}`
+          `https://blink-arena.vercel.app/api/actions/join/tournaments/${tournamentId}`
         );
 
         setFormData({
@@ -143,7 +143,7 @@ const TournamentForm: React.FC = () => {
   };
 
   const copyToClipboard = () => {
-    const urlToCopy = `http://localhost:3000/api/actions/join/${tournamentId}`;
+    const urlToCopy = `https://blink-arena.vercel.app/api/actions/join/${tournamentId}`;
     navigator.clipboard
       .writeText(urlToCopy)
       .then(() => {
@@ -155,7 +155,7 @@ const TournamentForm: React.FC = () => {
   };
 
   const shareOnTwitter = () => {
-    const urlToShare = `http://localhost:3000/api/actions/join/${tournamentId}`;
+    const urlToShare = `https://blink-arena.vercel.app/api/actions/join/${tournamentId}`;
     const textToShare = `Check out this tournament!`;
     const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       textToShare
@@ -186,7 +186,7 @@ const TournamentForm: React.FC = () => {
             mixBlendMode: "overlay",
           }}
         />
-        <Link href="http://localhost:3000">
+        <Link href="/">
           <div className="absolute top-12 left-12 z-50 max-w-xl">
             <div className="text-left">
               <h1 className="text-white text-2xl font-medium">
@@ -352,7 +352,7 @@ const TournamentForm: React.FC = () => {
                     <label className="mb-2 font-semibold">Tournament URL</label>
                     <input
                       type="text"
-                      value={`http://localhost:3000/api/actions/join/${tournamentId}`}
+                      value={`https://blink-arena.vercel.app/api/actions/join/${tournamentId}`}
                       readOnly
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                     />

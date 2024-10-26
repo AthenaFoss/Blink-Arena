@@ -33,8 +33,8 @@ export async function POST(req: Request) {
     const joinFeesType = formData.get("joinFeesType")?.toString() || "";
 
     const tournamentId = crypto.randomUUID();
-    const blinkLink = `http://localhost:3000/api/actions/join/${tournamentId}`;
-    const joinLink = `http://localhost:3000/admin/${tournamentId}`;
+    const blinkLink = `${process.env.FRONTEND_URL}/api/actions/join/${tournamentId}`;
+    const joinLink = `${process.env.FRONTEND_URL}/admin/${tournamentId}`;
 
     const image = formData.get("image") as File;
     let imageUrl = "";

@@ -49,13 +49,11 @@ const PrevArrow = ({ onClick }: { onClick: React.MouseEventHandler }) => {
 };
 
 const onClick = () => {
-  console.log("clicked");
 };
 
 const Page = () => {
   const [data, setData] = useState<Tournament[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  console.log(data);
 
   const fetchData = async () => {
     try {
@@ -140,7 +138,7 @@ const Page = () => {
           }}
         />
       </div>
-      <Link href="http://localhost:3000">
+      <Link href="/">
         <div className="absolute top-12 left-12 z-50 max-w-xl">
           <div className="text-left">
             <h1 className="text-white text-2xl font-medium">
