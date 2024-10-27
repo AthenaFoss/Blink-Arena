@@ -61,6 +61,9 @@ const Page = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        next: {
+          revalidate: 10,
+        },
       });
 
       if (response.ok) {
