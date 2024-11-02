@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     const organizationName = formData.get("organizationName")?.toString() || "";
     const email = formData.get("email")?.toString() || "";
     const description = formData.get("description")?.toString() || "";
-    const totalSlot = Number(formData.get("totalSlot") || 0);
+    const totalSlot = Number(formData.get("totalSlot") || 1);
     const prizePool = formData.get("prizePool")?.toString() || "";
     const date = formData.get("date")?.toString() || "";
     const time = formData.get("time")?.toString() || "";
