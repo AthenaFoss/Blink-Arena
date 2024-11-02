@@ -2,6 +2,7 @@
 "use client";
 
 import LoadingScreen from "@/components/ui/loading";
+import { Loader } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
@@ -43,6 +44,7 @@ const TournamentForm: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [, setTournamentUrl] = useState<string>("");
   const [tournamentId, setTournamentId] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -91,6 +93,8 @@ const TournamentForm: React.FC = () => {
       return;
     }
 
+    setSubmitting(true);
+
     const formDataToSend = new FormData();
     for (const key in formData) {
       if (key === "image" && formData[key]) {
@@ -115,7 +119,7 @@ const TournamentForm: React.FC = () => {
         const tournamentId = data.data.tournamentId;
         setTournamentId(tournamentId);
         setTournamentUrl(
-          `https://blink-arena.vercel.app/api/actions/join/tournaments/${tournamentId}`
+          `https://blinkarena.xyz/api/actions/join/tournaments/${tournamentId}`
           // `http://localhost:3000/api/actions/join/tournaments/${tournamentId}`
         );
 
@@ -140,11 +144,13 @@ const TournamentForm: React.FC = () => {
       }
     } catch (err) {
       console.error("Failed to submit form:", err);
+    } finally {
+      setSubmitting(false);
     }
   };
 
   const copyToClipboard = () => {
-    const urlToCopy = `https://blink-arena.vercel.app/api/actions/join/${tournamentId}`;
+    const urlToCopy = `https://blinkarena.xyz/join/${tournamentId}`;
     navigator.clipboard
       .writeText(urlToCopy)
       .then(() => {
@@ -156,7 +162,7 @@ const TournamentForm: React.FC = () => {
   };
 
   const shareOnTwitter = () => {
-    const urlToShare = `https://blink-arena.vercel.app/api/actions/join/${tournamentId}`;
+    const urlToShare = `https://blinkarena.xyz/join/${tournamentId}`;
     const textToShare = `Check out this tournament!`;
     const twitterShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
       textToShare
@@ -353,7 +359,7 @@ const TournamentForm: React.FC = () => {
                     <label className="mb-2 font-semibold">Tournament URL</label>
                     <input
                       type="text"
-                      value={`https://blink-arena.vercel.app/api/actions/join/${tournamentId}`}
+                      value={`https://blinkarena.xyz/join/${tournamentId}`}
                       readOnly
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                     />
@@ -390,9 +396,13 @@ const TournamentForm: React.FC = () => {
                       </button>
                       <button
                         type="submit"
-                        className="send-button bg-purple-600 text-white py-2 px-4 rounded-md"
+                        className="send-button bg-purple-600 text-white py-2 px-4 rounded-md flex items-center justify-center"
                       >
-                        Next
+                        {submitting ? (
+                          <Loader className="animate-spin" />
+                        ) : (
+                          "Next"
+                        )}{" "}
                       </button>
                     </>
                   )}
