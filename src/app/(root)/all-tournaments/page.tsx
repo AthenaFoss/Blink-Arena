@@ -166,6 +166,7 @@ const Page = () => {
                 time={tournament.time}
                 location={tournament.location}
                 prizePool={tournament.prizePool}
+                joinFees={tournament.joinFees}
               />
             </div>
           ))}

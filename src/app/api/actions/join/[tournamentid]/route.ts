@@ -38,8 +38,8 @@ export const GET = async (req: Request) => {
   try {
     const payload: ActionGetResponse = {
       icon: `${orgData.image}`,
-      title: `join the ${orgData.organizationName} tournament`,
-      description: `${orgData.description}\nAvailable Slots: ${orgData.totalSlot}`,
+      title: `Join ${orgData.organizationName} tournament`,
+      description: `${orgData.description}\nAvailable Slots: ${orgData.totalSlot}\nJoin Fees: ${orgData.joinFees} SOL (per member)`,
 
       label: "Join Now",
       links: {
@@ -119,7 +119,6 @@ export const POST = async (req: Request) => {
     const playerEmail = url.searchParams.get("email") ?? "";
     const teamType = url.searchParams.get("teamType") ?? "";
     const teamMembers = parseInt(url.searchParams.get("members") ?? "0");
-    const fees = 0.002;
 
     const tournament = await prisma.tournament.findUnique({
       where: { tournamentId },
@@ -130,6 +129,9 @@ export const POST = async (req: Request) => {
         headers: ACTIONS_CORS_HEADERS,
       });
     }
+
+    const joinFees = tournament.joinFees;
+    const totalFees = joinFees * teamMembers;
 
     const availableSlots = tournament.totalSlot;
     if (teamMembers > availableSlots) {
@@ -166,7 +168,7 @@ export const POST = async (req: Request) => {
       SystemProgram.transfer({
         fromPubkey: playerPubKey,
         toPubkey: new PublicKey(organizerPubKey),
-        lamports: fees * LAMPORTS_PER_SOL,
+        lamports: totalFees * LAMPORTS_PER_SOL,
       })
     );
 

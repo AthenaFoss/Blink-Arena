@@ -276,7 +276,7 @@ const TournamentForm: React.FC = () => {
                 {step === 2 && (
                   <>
                     <label className="mb-2 font-semibold">
-                      Prize Pool (optional)
+                      Prize Pool (in SOL)
                     </label>
                     <input
                       type="text"
@@ -330,7 +330,9 @@ const TournamentForm: React.FC = () => {
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                       required
                     />
-                    <label className="mb-2 font-semibold">Join Fees</label>
+                    <label className="mb-2 font-semibold">
+                      Join Fees (in SOL)
+                    </label>
                     <input
                       type="number"
                       name="joinFees"

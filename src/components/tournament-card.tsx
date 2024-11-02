@@ -8,6 +8,7 @@ interface TournamentCardProps {
   title: string;
   description: string;
   totalSlot: number;
+  joinFees: number;
   date: string;
   time: string;
   image: string;
@@ -20,6 +21,7 @@ export function TournamentCard({
   title,
   description,
   totalSlot,
+  joinFees,
   date,
   time,
   image,
@@ -78,6 +80,10 @@ export function TournamentCard({
         <li className="card__list_item">
           <span className="check"></span>
           <span className="list_text">Prize Pool: {prizePool}</span>
+        </li>
+        <li className="card__list_item">
+          <span className="check"></span>
+          <span className="list_text">Join Fee: {joinFees} SOL</span>
         </li>
       </ul>
       <Link
