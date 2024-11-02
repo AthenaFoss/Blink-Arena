@@ -148,15 +148,6 @@ export const POST = async (req: Request) => {
       where: { tournamentId },
       data: {
         totalSlot: { decrement: teamMembers },
-        // player: {
-        //   push: {
-        //     name: playerName,
-        //     email: playerEmail,
-        //     teamType: teamType,
-        //     teamMembers: teamMembers,
-        //     walletAddress: playerPubKey,
-        //   },
-        // },
       },
     });
 
