@@ -56,6 +56,16 @@ const TournamentForm: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  const getMinDate = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  };
+
+  const getMinTime = () => {
+    const now = new Date();
+    return now.toTimeString().slice(0, 5);
+  };
+
   const handleNext = () => {
     if (step < 4) setStep(step + 1);
   };
@@ -122,7 +132,6 @@ const TournamentForm: React.FC = () => {
         setTournamentId(tournamentId);
         setTournamentUrl(
           `https://blinkarena.xyz/api/actions/join/tournaments/${tournamentId}`
-          // `http://localhost:3000/api/actions/join/tournaments/${tournamentId}`
         );
 
         setFormData({
@@ -295,6 +304,7 @@ const TournamentForm: React.FC = () => {
                       name="date"
                       value={formData.date}
                       onChange={handleInputChange}
+                      min={getMinDate()}
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                       required
                     />
@@ -304,6 +314,11 @@ const TournamentForm: React.FC = () => {
                       name="time"
                       value={formData.time}
                       onChange={handleInputChange}
+                      min={
+                        formData.date === getMinDate()
+                          ? getMinTime()
+                          : undefined
+                      }
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                       required
                     />
@@ -356,7 +371,9 @@ const TournamentForm: React.FC = () => {
                       <option value="Per Team">Per Team</option>
                       <option value="Per Player">Per Player</option>
                     </select>
-                    <label className="mb-2 font-semibold">Solana PublicKey</label>
+                    <label className="mb-2 font-semibold">
+                      Solana PublicKey
+                    </label>
                     <input
                       type="text"
                       name="publicKey"
