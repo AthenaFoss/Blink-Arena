@@ -1,4 +1,10 @@
-import { LocateIcon } from "lucide-react";
+import {
+  BadgeDollarSign,
+  BetweenVerticalStart,
+  Clock,
+  LocateIcon,
+  Medal,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,18 +55,7 @@ export function TournamentCard({
       <ul className="card__list">
         <li className="card__list_item">
           <span className="check">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 16"
-              fill="currentColor"
-              className="check_svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M12.416 3.376a.75.75 0 0 1 .208 1.04l-5 7.5a.75.75 0 0 1-1.154.114l-3-3a.75.75 0 0 1 1.06-1.06l2.353 2.353 4.493-6.74a.75.75 0 0 1 1.04-.207Z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
+            <Clock className="text-stone-200 h-4 w-4" />
           </span>
           <span className="list_text">
             {date} {time}
@@ -74,16 +69,20 @@ export function TournamentCard({
         </li>
         <li className="card__list_item">
           <span className="check">
-            <LocateIcon className="text-stone-200" />
+            <BetweenVerticalStart className="text-stone-200 h-4 w-4" />
           </span>
           <span className="list_text">Available Slots : {totalSlot}</span>
         </li>
         <li className="card__list_item">
-          <span className="check"></span>
+          <span className="check">
+            <Medal className="text-stone-200 h-4 w-4" />
+          </span>
           <span className="list_text">Prize Pool: {prizePool}</span>
         </li>
         <li className="card__list_item">
-          <span className="check"></span>
+          <span className="check">
+            <BadgeDollarSign className="text-stone-200 h-4 w-4" />
+          </span>
           <span className="list_text">Join Fee: {joinFees} SOL</span>
         </li>
       </ul>
