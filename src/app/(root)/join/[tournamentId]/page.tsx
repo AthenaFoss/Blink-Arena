@@ -1,8 +1,14 @@
 "use client";
 
+import { TournamentCard } from "@/components/tournament-card";
+import LoadingScreen from "@/components/ui/loading";
+import Image from "next/image";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 
 interface Tournament {
+  tournamentId: string;
+  image: string;
   organizationName: string;
   email: string;
   description: string;
@@ -52,7 +58,7 @@ export default function JoinTournament({
   }, [tournamentId]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingScreen />;
   }
 
   if (error) {
@@ -60,46 +66,60 @@ export default function JoinTournament({
   }
 
   return (
-    <div className="bg-gray-900 text-white min-h-screen p-6">
-      {tournamentData ? (
-        <div className="max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
-          <h1 className="text-2xl font-bold mb-4">
-            Join Tournament: {tournamentData.organizationName}
-          </h1>
-          <p className="text-lg mb-2">
-            <strong>Description:</strong> {tournamentData.description}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Total Slot:</strong> {tournamentData.totalSlot}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Prize Pool:</strong>{" "}
-            {tournamentData.prizePool ?? "Not specified"}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Join Fees:</strong> {tournamentData.joinFees}{" "}
-            {tournamentData.joinFeesType}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Total Team Members:</strong>{" "}
-            {tournamentData.totalTeamMembers}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Date:</strong> {tournamentData.date}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Time:</strong> {tournamentData.time}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Location:</strong> {tournamentData.location}
-          </p>
-          <p className="text-lg mb-2">
-            <strong>Solana PublicKey:</strong> {tournamentData.publicKey}
-          </p>
+    <div
+      className="flex justify-center items-center min-h-screen relative"
+      style={{
+        background:
+          "radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
+      }}
+    >
+      <div className="absolute top-0 left-0 w-full h-full z-10 bg-gradient-to-b from-stone-900 to-purple-900">
+        <Image
+          src="/blink-img-1.png"
+          layout="fill"
+          alt="alt"
+          className="object-cover w-full h-full blur-md"
+        />
+        <div
+          className="absolute top-0 left-0 w-full h-full pointer-events-none z-20"
+          style={{
+            backgroundImage: "url('/noise.png')",
+            opacity: 0.8,
+            mixBlendMode: "overlay",
+          }}
+        />
+      </div>
+      <Link href="/">
+        <div className="absolute top-12 left-12 z-50 max-w-xl">
+          <div className="text-left">
+            <h1 className="text-white text-2xl font-medium">
+              blink{" "}
+              <span className="px-2 py-1 bg-gradient-to-r from-purple-600 via-fuchsia-700 to-purple-900  rounded-md text-slate-200">
+                arena
+              </span>
+            </h1>
+          </div>
         </div>
-      ) : (
-        <p>Tournament not found</p>
-      )}
+      </Link>
+      <div className="relative z-30">
+        {tournamentData ? (
+          <TournamentCard
+            tournamentId={tournamentData.tournamentId}
+            title={tournamentData.organizationName}
+            description={tournamentData.description}
+            totalSlot={tournamentData.totalSlot}
+            publicKey={tournamentData.publicKey}
+            image={tournamentData.image}
+            date={tournamentData.date}
+            time={tournamentData.time}
+            location={tournamentData.location}
+            joinFees={tournamentData.joinFees}
+            prizePool={tournamentData.prizePool ?? ""}
+          />
+        ) : (
+          <p className="text-white text-center">Tournament not found</p>
+        )}
+      </div>
     </div>
   );
 }

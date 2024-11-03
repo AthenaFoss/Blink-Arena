@@ -58,7 +58,7 @@ export function TournamentCard({
             <Clock className="text-stone-200 h-4 w-4" />
           </span>
           <span className="list_text">
-            {date} {time}
+            {date} / {time}
           </span>
         </li>
         <li className="card__list_item">
@@ -77,7 +77,7 @@ export function TournamentCard({
           <span className="check">
             <Medal className="text-stone-200 h-4 w-4" />
           </span>
-          <span className="list_text">Prize Pool: {prizePool}</span>
+          <span className="list_text">Prize Pool: {prizePool} SOL</span>
         </li>
         <li className="card__list_item">
           <span className="check">
