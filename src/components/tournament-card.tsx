@@ -88,8 +88,8 @@ export function TournamentCard({
         </li>
       </ul>
       <Link
-        // href={`https://dial.to/?action=solana-action%3Ahttps%3A%2F%2Fblinkarena.xyz%2Fapi%2Factions%2Fjoin%2F${tournamentId}&cluster=devnet`}
-        href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost:3000%2Fapi%2Factions%2Fjoin%2F${tournamentId}&cluster=devnet`}
+        href={`https://dial.to/?action=solana-action%3Ahttps%3A%2F%2Fblinkarena.xyz%2Fapi%2Factions%2Fjoin%2F${tournamentId}&cluster=devnet`}
+        // href={`https://dial.to/?action=solana-action%3Ahttp%3A%2F%2Flocalhost:3000%2Fapi%2Factions%2Fjoin%2F${tournamentId}&cluster=devnet`}
       >
         <Button className="button">Join Now</Button>
       </Link>
