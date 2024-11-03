@@ -17,6 +17,7 @@ model Tournament {
   image            String
   description      String
   totalSlot        Int
+  publicKey        String?
   prizePool        String?
   date             String
   time             String
@@ -33,7 +34,7 @@ model Tournament {
 model Player {
   id           String     @id @default(auto()) @map("_id") @db.ObjectId
   playerId     String
-  tournamentId String    @unique
+  tournamentId String     @unique
   tournament   Tournament @relation(fields: [tournamentId], references: [tournamentId])
   playerName   String
   playerEmail  String

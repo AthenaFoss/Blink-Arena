@@ -7,6 +7,7 @@ interface Tournament {
   email: string;
   description: string;
   totalSlot: number;
+  publicKey: string;
   prizePool?: string;
   date: string;
   time: string;
@@ -91,6 +92,9 @@ export default function JoinTournament({
           </p>
           <p className="text-lg mb-2">
             <strong>Location:</strong> {tournamentData.location}
+          </p>
+          <p className="text-lg mb-2">
+            <strong>Solana PublicKey:</strong> {tournamentData.publicKey}
           </p>
         </div>
       ) : (

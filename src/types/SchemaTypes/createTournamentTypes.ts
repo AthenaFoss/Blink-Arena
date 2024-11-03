@@ -7,6 +7,7 @@ export interface ITournament extends Document {
   image: string;
   description: string;
   totalSlot: number;
+  publicKey: string;
   prizePool: string;
   date: string;
   time: string;

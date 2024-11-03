@@ -14,7 +14,7 @@ import {
 } from "@solana/actions";
 import prisma from "@/lib/db";
 
-const organizerPubKey = "6rSrLGuhPEpxGqmbZzV1ZttwtLXzGx8V2WEACXd4qnVH";
+// const organizerPubKey = "6rSrLGuhPEpxGqmbZzV1ZttwtLXzGx8V2WEACXd4qnVH";
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
 export const GET = async (req: Request) => {
@@ -123,6 +123,7 @@ export const POST = async (req: Request) => {
     const tournament = await prisma.tournament.findUnique({
       where: { tournamentId },
     });
+
     if (!tournament) {
       return new Response(JSON.stringify({ error: "Tournament not found" }), {
         status: 404,
@@ -155,10 +156,20 @@ export const POST = async (req: Request) => {
       throw new Error("Failed to update tournament data");
     }
 
+    if (!tournament.publicKey) {
+      return new Response(
+        JSON.stringify({ error: "Tournament public key not found" }),
+        {
+          status: 400,
+          headers: ACTIONS_CORS_HEADERS,
+        }
+      );
+    }
+
     const transaction = new Transaction().add(
       SystemProgram.transfer({
         fromPubkey: playerPubKey,
-        toPubkey: new PublicKey(organizerPubKey),
+        toPubkey: new PublicKey(tournament.publicKey),
         lamports: totalFees * LAMPORTS_PER_SOL,
       })
     );

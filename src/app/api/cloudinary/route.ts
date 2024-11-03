@@ -10,9 +10,9 @@ cloudinary.config({
 
 // Create an API route handler
 export async function POST(request: Request) {
-  const formData = await request.formData(); // Use formData to access the uploaded file
-  const file = formData.get("file") as Blob; // Assuming the input name is 'file'
-  const folder = formData.get("folder") as string; // If you want to specify a folder
+  const formData = await request.formData();
+  const file = formData.get("file") as Blob;
+  const folder = formData.get("folder") as string;
 
   try {
     const imageUrl = await uploadImage(file, folder);
@@ -23,6 +23,4 @@ export async function POST(request: Request) {
     });
   }
 }
-
-// Upload image function
 

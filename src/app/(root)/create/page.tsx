@@ -14,6 +14,7 @@ interface TournamentFormData {
   image: File | null;
   description: string;
   totalSlot: number;
+  publicKey: string;
   prizePool?: string;
   date: string;
   time: string;
@@ -30,6 +31,7 @@ const TournamentForm: React.FC = () => {
     image: null,
     description: "",
     totalSlot: 1,
+    publicKey: "",
     prizePool: "",
     date: "",
     time: "",
@@ -129,6 +131,7 @@ const TournamentForm: React.FC = () => {
           image: null,
           description: "",
           totalSlot: 1,
+          publicKey: "",
           prizePool: "",
           date: "",
           time: "",
@@ -353,6 +356,16 @@ const TournamentForm: React.FC = () => {
                       <option value="Per Team">Per Team</option>
                       <option value="Per Player">Per Player</option>
                     </select>
+                    <label className="mb-2 font-semibold">Solana PublicKey</label>
+                    <input
+                      type="text"
+                      name="publicKey"
+                      value={formData.publicKey}
+                      onChange={handleInputChange}
+                      className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                      placeholder="Enter Solana PublicKey"
+                    />
                   </>
                 )}
 

@@ -7,6 +7,7 @@ const tournamentFormSchema = z.object({
   image: z.instanceof(File).nullable(),
   description: z.string().min(10, "Description must be at least 10 characters"),
   totalSlot: z.number().min(1, "Total slots must be at least 1"),
+  publicKey: z.string().min(44, "Public key is required"),
   prizePool: z.string().optional(),
   date: z.string().min(1, "Date is required"),
   time: z.string().min(1, "Time is required"),

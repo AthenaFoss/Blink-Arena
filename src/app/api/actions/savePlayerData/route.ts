@@ -1,5 +1,3 @@
-// import createTournamentSchema from "@/app/(mongodb)/schema/createTournamentSchema";
-// import Player from "@/app/(mongodb)/schema/playerScehma";
 import prisma from "@/lib/db";
 import {
   ActionError,

@@ -1,5 +1,3 @@
-// import createTournamentSchema from '@/app/(mongodb)/schema/createTournamentSchema';
-
 import prisma from "@/lib/db";
 
 export const GET = async (req: Request) => {

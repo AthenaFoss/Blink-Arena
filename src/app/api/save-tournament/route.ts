@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     const email = formData.get("email")?.toString() || "";
     const description = formData.get("description")?.toString() || "";
     const totalSlot = Number(formData.get("totalSlot") || 1);
+    const publicKey = formData.get("publicKey")?.toString() || "";
     const prizePool = formData.get("prizePool")?.toString() || "";
     const date = formData.get("date")?.toString() || "";
     const time = formData.get("time")?.toString() || "";
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
         email,
         image: imageUrl,
         description,
+        publicKey,
         totalSlot,
         prizePool,
         date,

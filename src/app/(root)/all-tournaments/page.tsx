@@ -15,6 +15,7 @@ interface Tournament {
   organizationName: string;
   description: string;
   totalSlot: number;
+  publicKey: string;
   prizePool: string;
   tournamentId: string;
   date: string;
@@ -161,6 +162,7 @@ const Page = () => {
                 title={tournament.organizationName}
                 description={tournament.description}
                 totalSlot={tournament.totalSlot}
+                publicKey={tournament.publicKey}
                 image={tournament.image}
                 date={tournament.date}
                 time={tournament.time}
