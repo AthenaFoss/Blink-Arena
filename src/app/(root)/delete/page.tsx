@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function DeleteTournamentPage() {
   const [tournamentId, setTournamentId] = useState("");
   const [publicKey, setPublicKey] = useState("");
-//   const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -25,7 +25,7 @@ export default function DeleteTournamentPage() {
       const response = await fetch("/api/delete", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tournamentId, publicKey }),
+        body: JSON.stringify({ tournamentId, publicKey, password }),
       });
 
       const data = await response.json();
@@ -112,7 +112,7 @@ export default function DeleteTournamentPage() {
                 required
               />
 
-              {/* <label htmlFor="roomId" className="mb-2 font-semibold">
+              <label htmlFor="roomId" className="mb-2 font-semibold">
                 Password:
               </label>
               <input
@@ -123,7 +123,7 @@ export default function DeleteTournamentPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-              /> */}
+              />
 
               <label htmlFor="roomId" className="mb-2 font-semibold">
                 Conformation:

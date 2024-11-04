@@ -22,6 +22,7 @@ interface TournamentFormData {
   totalTeamMembers: number;
   joinFees: number;
   joinFeesType: string;
+  password: string;
 }
 
 const TournamentForm: React.FC = () => {
@@ -39,6 +40,7 @@ const TournamentForm: React.FC = () => {
     totalTeamMembers: 0,
     joinFees: 0,
     joinFeesType: "",
+    password: "",
   });
 
   const [, setImageUrl] = useState<string | null>(null);
@@ -148,6 +150,7 @@ const TournamentForm: React.FC = () => {
           totalTeamMembers: 0,
           joinFees: 0,
           joinFeesType: "",
+          password: "",
         });
 
         handleNext();
@@ -382,6 +385,18 @@ const TournamentForm: React.FC = () => {
                       className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
                       required
                       placeholder="Enter Solana PublicKey"
+                    />
+                    <label className="mb-2 font-semibold">
+                      Password (Needed for deleting)
+                    </label>
+                    <input
+                      type="text"
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      className="input mt-4 w-full px-3 py-2 border border-gray-300 rounded-md"
+                      required
+                      placeholder="Enter Password"
                     />
                   </>
                 )}

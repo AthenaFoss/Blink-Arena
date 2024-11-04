@@ -29,6 +29,7 @@ export async function POST(req: Request) {
     const totalTeamMembers = Number(formData.get("totalTeamMembers") || 0);
     const joinFees = Number(formData.get("joinFees") || 0);
     const joinFeesType = formData.get("joinFeesType")?.toString() || "";
+    const password = formData.get("password")?.toString() || "";
 
     const tournamentId = crypto.randomUUID();
     const blinkLink = `${process.env.FRONTEND_URL}/api/actions/join/${tournamentId}`;
@@ -56,6 +57,7 @@ export async function POST(req: Request) {
         totalTeamMembers,
         joinFees,
         joinFeesType,
+        password,
       },
     });
 
@@ -63,16 +65,18 @@ export async function POST(req: Request) {
       from: process.env.EMAIL,
       to: email,
       subject: "Tournament Created Successfully",
-      text: `Dear ${organizationName},\n\nYou have successfully created a tournament with ID: ${tournamentId}.\n\nHere is your blink link: ${blinkLink}\n\nPlease visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: ${joinLink}.\nWe will then send the necessary information to the registered users.\n\nBest regards,\nTeam Blink Arena`,
+      text: `Dear ${organizationName},\n\nYou have successfully created a tournament with ID: ${tournamentId}.\n\nHere is your blink link: ${blinkLink}\n\nPlease visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: ${joinLink}.\nWe will then send the necessary information to the registered users.\n\nIf you want to delete the tournament, go to: https://www.blinkarena.xyz/delete\n\nBest regards,\nTeam Blink Arena`,
       html: `
         <p>Dear ${organizationName},</p>
         <p>You have successfully created a tournament with ID: <strong>${tournamentId}</strong>.</p>
         <p>Here is your blink link: <a href="${blinkLink}">${blinkLink}</a></p>
         <p>Please visit the below link 1 hour before the game starts to provide the room ID, password, or any other method for participants to join: <a href="${joinLink}">${joinLink}</a>.</p>
         <p>We will then send the necessary information to the registered users.</p>
+        <p>If you want to delete the tournament, go to: <a href="https://www.blinkarena.xyz/delete">this link</a>.</p>
         <p>Best regards,<br>Team Blink Arena</p>
       `,
     });
+
     return new Response(
       JSON.stringify({
         success: true,

@@ -14,7 +14,6 @@ import {
 } from "@solana/actions";
 import prisma from "@/lib/db";
 
-// const organizerPubKey = "6rSrLGuhPEpxGqmbZzV1ZttwtLXzGx8V2WEACXd4qnVH";
 const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
 
 export const GET = async (req: Request) => {

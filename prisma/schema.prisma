@@ -25,6 +25,7 @@ model Tournament {
   totalTeamMembers Int
   joinFees         Int
   joinFeesType     String
+  password         String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
