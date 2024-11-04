@@ -2,9 +2,9 @@ import prisma from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(req: NextRequest) {
-  const { tournamentId, publicKey, password } = await req.json();
+  const { tournamentId, publicKey } = await req.json();
 
-  if (!tournamentId || !publicKey || !password) {
+  if (!tournamentId || !publicKey) {
     return NextResponse.json(
       {
         success: false,
